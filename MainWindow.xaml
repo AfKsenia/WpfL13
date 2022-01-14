@@ -1,0 +1,89 @@
+﻿<Window x:Class="WpfL13.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfL13"
+        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" MinHeight="300" MinWidth="600" Style="{DynamicResource WindowStyle}" >
+    <Window.CommandBindings>
+        <CommandBinding Command="local:MyCommands.Exit" Executed="ExitExecuted"/>
+        <CommandBinding Command="Open" Executed="OpenExecuted"/>
+        <CommandBinding Command="Save" Executed="SaveExecuted"/>
+    </Window.CommandBindings>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Padding="5" Style="{DynamicResource MenuStyle}">
+            <MenuItem Header="_Файл" >
+                <MenuItem Header="_Открыть" Command="Open"/>
+                <MenuItem Header="_Сохранить" Command="Save"/>
+                <Separator/>
+                <MenuItem Command="local:MyCommands.Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Правка" >
+                <MenuItem Header="_Отменить" Command="Undo" CommandTarget="{Binding ElementName=textBox}"/>
+                <Separator/>
+                <MenuItem Header="_Вырезать" Command="Cut" CommandTarget="{Binding ElementName=textBox}"/>
+                <MenuItem Header="_Копировать" Command="Copy" CommandTarget="{Binding ElementName=textBox}"/>
+                <MenuItem Header="_Вставить" Command="Paste" CommandTarget="{Binding ElementName=textBox}"/>
+
+            </MenuItem>
+
+            <MenuItem Header="_Справка"></MenuItem>
+        </Menu>
+        <TextBox x:Name="textBox" Grid.Row="2" Style="{DynamicResource TextBoxJustifyStyle}" FontSize="{Binding ElementName=Size, Path=SelectedItem}" FontFamily="{Binding ElementName=Font, Path=SelectedItem}">
+        </TextBox>
+        <ToolBarTray Grid.Row="1" Style="{DynamicResource ToolBarTrayStyle}"   >
+            <ToolBar  Style="{DynamicResource ToolBarStyle_Test}" >
+                <ComboBox  x:Name="Font"  Padding="5" SelectedIndex="0" Width="200" ItemsSource="{StaticResource fonts}"  ToolBar.OverflowMode="Never"/>
+                <ComboBox x:Name="Size" Padding="5" SelectedIndex="2" Width="50" ItemsSource="{StaticResource fontsize}"  ToolBar.OverflowMode="Never"/>
+            </ToolBar>
+            <ToolBar  Style="{DynamicResource ToolBarStyle_Test}">
+                <Button x:Name="bold" Command="local:MyCommands.Bold" Style="{DynamicResource Button}">
+                    <Button.CommandBindings>
+                        <CommandBinding Command="local:MyCommands.Bold" Executed="BoldExecuted"/>
+                    </Button.CommandBindings>
+                    <Button.ToolTip>
+                        <ToolTip Content="Полужирный" VerticalOffset="5"/>
+                    </Button.ToolTip>
+                    <Image Source="Data/bold.png" Width="24" Height="24"/>
+                </Button>
+                <Separator Width="1" Margin="1" Height="30"/>
+                <Button x:Name="italic" Command="local:MyCommands.Italic">
+                    <Button.CommandBindings>
+                        <CommandBinding Command="local:MyCommands.Italic" Executed="ItalicExecuted"/>
+                    </Button.CommandBindings>
+                    <Button.ToolTip>
+                        <ToolTip Content="Курсив" VerticalOffset="5"/>
+                    </Button.ToolTip>
+                    <Image Source="Data/italics.png" Width="24"/>
+                </Button>
+                <Separator Width="1" Margin="0" Height="30"/>
+                <Button x:Name="underline" Command="local:MyCommands.Underline">
+                    <Button.CommandBindings>
+                        <CommandBinding Command="local:MyCommands.Underline" Executed="UnderlineExecuted"/>
+                    </Button.CommandBindings>
+                    <Button.ToolTip>
+                        <ToolTip Content="Подчеркнутый" VerticalOffset="5"/>
+                    </Button.ToolTip>
+                    <Image Source="Data/underline.png" Width="24"/>
+                </Button>
+                <Separator Margin="0" Height="30"/>
+            </ToolBar>
+            <ToolBar Style="{DynamicResource ToolBarStyle_Test}"  >
+                <StackPanel  VerticalAlignment="Center">
+                    <RadioButton x:Name="Black" Content="Черный" IsChecked="True" Checked="Black_Click"/>
+                    <RadioButton x:Name="Red"  Content="Красный" Checked="Red_Click"/>
+                </StackPanel>
+            </ToolBar>
+            <ToolBar Style="{DynamicResource ToolBarStyle_Test}" >
+                <ComboBox x:Name="styleBox" Margin="5" Padding="5"  />
+            </ToolBar>
+        </ToolBarTray>
+    </Grid>
+</Window>
